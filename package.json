@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "test": "node_modules/.bin/http-server -c-1 -a localhost -p 9999 -o '/?theme=dark'"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.3"
+  }
+}
