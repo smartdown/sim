@@ -2,13 +2,11 @@
 
 This [Smartdown](https://smartdown.io) document ...
 
-
-
-
 ### P5JS for Simulation
 
 ```p5js /playable/autoplay
 
+const scheduleTrackWidth = 50;
 const margin = 40;
 const res = 20;
 const div = this.div;
@@ -21,7 +19,7 @@ function calcVec(x, y) {
 p5.windowResized = function() {
   p5.resizeCanvas(div.clientWidth, 500);
 
-  var countX = p5.ceil(p5.width / res) + 1;
+  var countX = p5.ceil((p5.width - scheduleTrackWidth) / res) + 1;
   var countY = p5.ceil(p5.height / res) + 1;
 
   for (var j = 0; j < countY; j++) {
@@ -39,13 +37,29 @@ p5.setup = function() {
   p5.stroke(249, 78, 128);
 };
 
+function drawScheduleTrack() {
+  p5.fill('white');
+
+  const height = p5.height;
+  p5.rect(0, 0, scheduleTrackWidth, p5.height);
+  p5.textSize(10);
+  p5.fill('red');
+
+  let week = 1;
+  for (let y = 0; y < height; y += 20) {
+    p5.text(`Week ${week}`, 2, y);
+    ++week;
+  }
+}
+
 p5.draw = function() {
   p5.background(30, 67, 137);
+  drawScheduleTrack();
 
   for (var i = locs.length - 1; i >= 0; i--) {
     var h = calcVec(locs[i].x - p5.mouseX, locs[i].y - p5.mouseY);
     p5.push();
-      p5.translate(locs[i].x, locs[i].y);
+      p5.translate(locs[i].x + scheduleTrackWidth + res, locs[i].y + res);
       p5.rotate(h.heading());
       p5.line(0, 0, 0, - 15);
     p5.pop();
